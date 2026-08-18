@@ -13,6 +13,7 @@ binary. We carry a small delta and cut our own releases.
 | `initiatives list`: `progress` → `health` (Linear removed the field) | proposed in nesszer/linear-cli#46 |
 | `issues get --history`: drop `slaBreachesAt`/`slaStartedAt` from the history fragment | proposed in nesszer/linear-cli#46 |
 | release workflow: `fail-fast: false`, resilient upload, explicit tag input, GitHub-hosted runners | proposed in nesszer/linear-cli#47 |
+| `issues create --project` cherry-picked from the orphaned v0.3.27 tag | tagged upstream but never merged to master |
 | crates.io publish job removed | fork-only, and must stay fork-only — we do not own the crate |
 
 Keep this delta small. When upstream merges #46 and #47, rebase and drop what
