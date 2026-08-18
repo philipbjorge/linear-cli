@@ -4,6 +4,11 @@ name: Release
 # Blacksmith free tier is not consumed by surprise release builds. The
 # workflow stays local-by-default: an operator dispatches it after a manual
 # `cargo publish`. See docs/adr/0001-pr-check-blacksmith-local-release.md.
+#
+# The release matrix runs on GitHub-hosted runners. This repository is public,
+# so those minutes are free, and a rare dispatch-only release then costs the
+# shared Blacksmith pool nothing at all — which is what ADR 0001 set out to
+# protect. PR Check stays on Blacksmith, unchanged.
 
 on:
   workflow_dispatch:
@@ -35,7 +40,7 @@ jobs:
       matrix:
         include:
           - target: x86_64-pc-windows-msvc
-            runner: blacksmith-4vcpu-windows-2025
+            runner: windows-latest
             ext: .exe
           - target: x86_64-apple-darwin
             runner: macos-latest
@@ -44,10 +49,10 @@ jobs:
             runner: macos-latest
             ext: ""
           - target: x86_64-unknown-linux-gnu
-            runner: blacksmith-4vcpu-ubuntu-2404
+            runner: ubuntu-latest
             ext: ""
           - target: aarch64-unknown-linux-gnu
-            runner: blacksmith-4vcpu-ubuntu-2404
+            runner: ubuntu-latest
             ext: ""
             use_cross: true
 
