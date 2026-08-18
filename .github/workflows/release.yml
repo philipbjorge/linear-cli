@@ -7,6 +7,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build and attach assets to (e.g. v0.3.28)"
+        required: true
+        type: string
 
 env:
   CARGO_TERM_COLOR: always
@@ -48,6 +53,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.tag }}
 
       - name: Install Linux keyring build deps
         if: runner.os == 'Linux' && !matrix.use_cross
@@ -112,6 +119,9 @@ jobs:
       - name: Upload to release
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
+          # Without an explicit tag the action falls back to github.ref, which
+          # is a branch ref whenever the workflow is dispatched from a branch.
+          tag_name: ${{ inputs.tag }}
           files: |
             linear-cli-*/linear-cli-*
 
@@ -125,6 +135,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.tag }}
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
